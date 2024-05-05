@@ -1,6 +1,5 @@
 package com.cloud.yagodev.backend.domain.entities;
 
-
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

@@ -1,18 +1,23 @@
 package com.cloud.yagodev.backend.domain.entities;
 
+
 import com.cloud.yagodev.backend.domain.enums.OrderStatus;
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order")
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE") //SALVAR NO BANCO FORMATO UTC;
     private Instant moment;
     private OrderStatus status;
 
@@ -20,7 +25,7 @@ public class Order {
     @JoinColumn(name = "client_id")
     private User client;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)//1 para 1 é obrigatório colocar "cascade = CascadeType.ALL"
     private Payment payment;
 
     @OneToMany(mappedBy = "id.order")
@@ -29,17 +34,19 @@ public class Order {
     public Order() {
     }
 
-    public Order(UUID id, Instant moment, OrderStatus status) {
+    public Order(Long id, Instant moment, OrderStatus status, User client, Payment payment) {
         this.id = id;
         this.moment = moment;
         this.status = status;
+        this.client = client;
+        this.payment = payment;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -59,11 +66,27 @@ public class Order {
         this.status = status;
     }
 
+    public User getClient() {
+        return client;
+    }
+
+    public void setClient(User client) {
+        this.client = client;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
     public Set<OrderItem> getItems() {
         return items;
     }
 
-    public List<Product> getProducts() {
-        return items.stream().map(OrderItem::getProduct).toList();
+    public List<Product> getProducts(){
+        return items.stream().map(x -> x.getProduct()).toList();
     }
 }

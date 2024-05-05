@@ -3,15 +3,15 @@ package com.cloud.yagodev.backend.domain.entities;
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tb_payment")
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
 
     @OneToOne
@@ -21,16 +21,17 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(UUID id, Instant moment) {
+    public Payment(Long id, Instant moment, Order order) {
         this.id = id;
         this.moment = moment;
+        this.order = order;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -40,5 +41,13 @@ public class Payment {
 
     public void setMoment(Instant moment) {
         this.moment = moment;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

@@ -5,34 +5,44 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tb_user")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-    @Column(unique = true)
+
+    @Column(unique = true)//Config para dizer que é um campo unico que nao vai se repetir, coluna unica.
     private String email;
     private String phone;
     private LocalDate birthDate;
     private String password;
+    //private String[] roles;
 
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
-    public User() { }
+    public User() {
+    }
 
-    public User(UUID id, String name, String email, String phone, LocalDate birthDate, String password) {
+    public User(Long id, String name, String email, String phone, LocalDate birthDate, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.birthDate = birthDate;
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -73,14 +83,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public List<Order> getOrders() {
