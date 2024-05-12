@@ -3,6 +3,7 @@ package com.cloud.yagodev.backend.services;
 import com.cloud.yagodev.backend.domain.dtos.ProductDTO;
 import com.cloud.yagodev.backend.domain.entities.Product;
 import com.cloud.yagodev.backend.repositories.ProductRepository;
+import com.cloud.yagodev.backend.services.exceptions.DatabaseException;
 import com.cloud.yagodev.backend.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -66,7 +67,7 @@ public class ProductService {
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Recurso nao encontrado");
         } catch (DataIntegrityViolationException e) {
-            throw new ResourceNotFoundException("Falha de integridade referencial");
+            throw new DatabaseException(    "Falha de integridade referencial");
         }
     }
 

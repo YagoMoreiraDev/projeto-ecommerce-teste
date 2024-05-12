@@ -1,11 +1,22 @@
 package com.cloud.yagodev.backend.domain.dtos;
 
 import com.cloud.yagodev.backend.domain.entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class ProductDTO {
     private Long id;
+
+    @Size(min = 3, max = 80, message = "De 3 a 80 caracteres")
+    @NotBlank(message = "Campo obrigatório")
     private String name;
+
+    @Size(min = 10, message = "No minimo 10 caracteres")
+    @NotBlank(message = "Campo obrigatório")
     private String description;
+
+    @Positive(message = "Valores não ser negativo e nem 0")
     private Double price;
     private String imgUrl;
 
